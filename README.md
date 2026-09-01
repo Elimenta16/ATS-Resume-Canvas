@@ -29,9 +29,3 @@ An interactive, dynamic resume canvas designed to craft, customize, and optimize
 
 ---
 
-## 🚀 Getting Started
-
-### 1. Clone the repository
-```bash
-git clone [https://github.com/YOUR_USERNAME/ats-resume-canvas-studio.git](https://github.com/YOUR_USERNAME/ats-resume-canvas-studio.git)
-cd ats-resume-canvas-studio
