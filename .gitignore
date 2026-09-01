@@ -1,0 +1,11 @@
+# Entorno virtual
+venv/
+.venv/
+
+# Claves privadas (secrets)
+.streamlit/secrets.toml
+
+# Archivos temporales de Python
+__pycache__/
+*.pyc
+.DS_Store
