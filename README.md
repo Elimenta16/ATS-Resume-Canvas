@@ -22,7 +22,7 @@ An interactive, dynamic resume canvas designed to craft, customize, and optimize
 
 * **Language:** Python 3.10+
 * **Web Framework:** Streamlit
-* **Artificial Intelligence:** `google-genai` SDK (`gemini-2.5-flash` model)
+* **Artificial Intelligence:** `google-genai` SDK (`gemini-3.6-flash` model)
 * **Document Generation:** ReportLab
 * **Data Visualization:** Plotly Express & Pandas
 * **PDF Parsing:** `pypdf`
