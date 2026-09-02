@@ -4,3 +4,4 @@ plotly
 reportlab
 groq
 pypdf
+streamlit-pdf-viewer
