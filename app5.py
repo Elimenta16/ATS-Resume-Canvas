@@ -3,7 +3,6 @@ import html
 import importlib
 import io
 import json
-
 import pandas as pd
 import plotly.express as px
 import streamlit as st
@@ -677,28 +676,10 @@ with col_preview:
     # Convert PDF bytes to Base64
     base64_pdf = base64.b64encode(pdf_bytes.getvalue()).decode("utf-8")
 
- # JavaScript Blob rendering bypasses Chromium security restrictions
-    html_code = f"""
-    <div id="pdf-container" style="width:100%; height:750px;"></div>
-    <script>
-        const byteCharacters = atob("{base64_pdf}");
-        const byteNumbers = new Array(byteCharacters.length);
-        for (let i = 0; i < byteCharacters.length; i++) {{
-            byteNumbers[i] = byteCharacters.charCodeAt(i);
-        }}
-        const byteArray = new Uint8Array(byteNumbers);
-        const file = new Blob([byteArray], {{ type: 'application/pdf' }});
-        const fileURL = URL.createObjectURL(file);
-        
-        const iframe = document.createElement('iframe');
-        iframe.src = fileURL;
-        iframe.width = '100%';
-        iframe.height = '100%';
-        iframe.style.border = 'none';
-        
-        const container = document.getElementById('pdf-container');
-        container.appendChild(iframe);
-    </script>
-    """
+s
+    st.markdown("---")
+    st.markdown("### Document Live Preview")
 
-    st.iframe(src="data:text/html;charset=utf-8," + html_code, height=750)
+    # Renderizado con la librería nativa
+    from streamlit_pdf_viewer import pdf_viewer
+    pdf_viewer(input=pdf_bytes.getvalue(), height=750)
