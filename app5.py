@@ -104,7 +104,7 @@ I18N = {
         "pdf_proj": "PROYECTOS DESTACADOS",
         "pdf_skills": "HABILIDADES & COMPETENCIAS",
         "pdf_edu": "EDUCACIÓN",
-        "pdf_lang": "IDIOMAS & CERTIFICACIONES",
+        "pdf_lang": "IDIOMAS Y CERTIFICACIONES",
         "btn_dl_pdf": "📥 Descargar PDF ATS",
         "btn_dl_json": "💾 Respaldar Datos (.JSON)",
     },
@@ -671,12 +671,34 @@ with col_preview:
         mime="application/json",
     )
 
-  st.markdown("---")
+    st.markdown("---")
     st.markdown("### Document Live Preview")
 
-    try:
-        from streamlit_pdf_viewer import pdf_viewer
-        pdf_viewer(input=pdf_bytes.getvalue(), height=750)
-    except ImportError:
-        st.info("💡 Install `streamlit-pdf-viewer` (`pip install streamlit-pdf-viewer`) for seamless native previews.")
-        # Fallback to download button if package isn't installed yet
+    # Convert PDF bytes to Base64
+    base64_pdf = base64.b64encode(pdf_bytes.getvalue()).decode("utf-8")
+
+    # JavaScript Blob rendering bypasses Chromium security restrictions
+    html_code = f"""
+    <div id="pdf-container" style="width:100%; height:750px;"></div>
+    <script>
+        const byteCharacters = atob("{base64_pdf}");
+        const byteNumbers = new Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {{
+            byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }}
+        const byteArray = new Uint8Array(byteNumbers);
+        const file = new Blob([byteArray], {{ type: 'application/pdf' }});
+        const fileURL = URL.createObjectURL(file);
+        
+        const iframe = document.createElement('iframe');
+        iframe.src = fileURL;
+        iframe.width = '100%';
+        iframe.height = '100%';
+        iframe.style.border = 'none';
+        
+        const container = document.getElementById('pdf-container');
+        container.appendChild(iframe);
+    </script>
+    """
+
+    st.components.v1.html(html_code, height=750)
