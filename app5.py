@@ -674,6 +674,15 @@ with col_preview:
     st.markdown("---")
     st.markdown("### Document Live Preview")
 
+    # Convert PDF bytes to Base64
     base64_pdf = base64.b64encode(pdf_bytes.getvalue()).decode("utf-8")
-    pdf_display = f'<iframe src="data:application/pdf;base64,{base64_pdf}" width="100%" height="750" type="application/pdf"></iframe>'
+
+    # Render using <object> to bypass Chrome PDF iframe blocking
+    pdf_display = f"""
+        <object data="data:application/pdf;base64,{base64_pdf}" type="application/pdf" width="100%" height="750px">
+            <p>Your browser does not support PDF preview. 
+            Please use the download button above to view the file.</p>
+        </object>
+    """
+    
     st.markdown(pdf_display, unsafe_allow_html=True)
