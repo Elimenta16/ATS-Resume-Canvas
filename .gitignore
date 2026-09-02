@@ -1,11 +1,16 @@
-# Entorno virtual
+# Virtual environment
 venv/
 .venv/
+env/
 
-# Claves privadas (secrets)
+# Secrets and private credentials
 .streamlit/secrets.toml
+*.env
 
-# Archivos temporales de Python
+# Python temporary files & OS cache
 __pycache__/
 *.pyc
+*.pyo
 .DS_Store
+.vscode/
+.idea/
