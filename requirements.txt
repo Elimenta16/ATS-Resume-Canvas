@@ -1,6 +1,6 @@
 streamlit
-google-genai
-reportlab
 pandas
 plotly
+reportlab
+groq
 pypdf
