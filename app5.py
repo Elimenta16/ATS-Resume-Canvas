@@ -677,7 +677,7 @@ with col_preview:
     # Convert PDF bytes to Base64
     base64_pdf = base64.b64encode(pdf_bytes.getvalue()).decode("utf-8")
 
-    # JavaScript Blob rendering bypasses Chromium security restrictions
+ # JavaScript Blob rendering bypasses Chromium security restrictions
     html_code = f"""
     <div id="pdf-container" style="width:100%; height:750px;"></div>
     <script>
@@ -701,4 +701,4 @@ with col_preview:
     </script>
     """
 
-    st.components.v1.html(html_code, height=750)
+    st.iframe(src="data:text/html;charset=utf-8," + html_code, height=750)
