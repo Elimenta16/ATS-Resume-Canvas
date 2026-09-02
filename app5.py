@@ -63,13 +63,10 @@ st.set_page_config(
 
 
 # =========================================================
-# GROQ API KEY
+# GROQ API KEY (SECURE INJECTION VIA ST.SECRETS)
 # =========================================================
 
-try:
-    groq_api_key = st.secrets.get("GROQ_API_KEY", "")
-except Exception:
-    groq_api_key = ""
+groq_api_key = st.secrets.get("GROQ_API_KEY", "")
 
 
 # =========================================================
@@ -343,16 +340,12 @@ with st.sidebar:
     t = I18N[selected_lang]
 
     st.markdown("---")
-    st.header("🔑 AI Settings (Groq)")
+    st.header("⚙️ AI Engine Status")
 
-    user_groq_key = st.text_input(
-        "Groq API Key",
-        type="password",
-        value=groq_api_key,
-        help="Optional if already set in secrets.toml",
-    )
-
-    active_api_key = user_groq_key if user_groq_key else groq_api_key
+    if groq_api_key:
+        st.success("🟢 API Key Securely Connected")
+    else:
+        st.error("🔴 GROQ_API_KEY Missing in Secrets")
 
     st.info(f"🤖 Active Model:\n\n`{MODEL_NAME}`")
     st.markdown("---")
@@ -537,8 +530,8 @@ with col_canvas:
         if btn_analyze:
             if Groq is None:
                 st.error("❌ The 'groq' package is not installed. Run: `pip install groq`")
-            elif not active_api_key:
-                st.error("⚠️ Please enter your GROQ_API_KEY in the sidebar or in secrets.toml")
+            elif not groq_api_key.strip():
+                st.error("⚠️ GROQ_API_KEY is missing in secrets.toml / Streamlit Cloud Settings.")
             elif not job_offer.strip():
                 st.warning("⚠️ Please paste the job description before running the analysis.")
             else:
@@ -567,7 +560,7 @@ Education: {json.dumps(education, ensure_ascii=False, indent=2)}
                         if not cv_text_to_analyze.strip():
                             st.error("❌ Could not extract text from the resume.")
                         else:
-                            client = Groq(api_key=active_api_key.strip())
+                            client = Groq(api_key=groq_api_key.strip())
                             prompt = f"""
 Analyze the following Resume against the Job Description.
 
