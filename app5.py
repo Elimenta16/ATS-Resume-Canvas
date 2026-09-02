@@ -671,18 +671,12 @@ with col_preview:
         mime="application/json",
     )
 
-    st.markdown("---")
+  st.markdown("---")
     st.markdown("### Document Live Preview")
 
-    # Convert PDF bytes to Base64
-    base64_pdf = base64.b64encode(pdf_bytes.getvalue()).decode("utf-8")
-
-    # Render using <object> to bypass Chrome PDF iframe blocking
-    pdf_display = f"""
-        <object data="data:application/pdf;base64,{base64_pdf}" type="application/pdf" width="100%" height="750px">
-            <p>Your browser does not support PDF preview. 
-            Please use the download button above to view the file.</p>
-        </object>
-    """
-    
-    st.markdown(pdf_display, unsafe_allow_html=True)
+    try:
+        from streamlit_pdf_viewer import pdf_viewer
+        pdf_viewer(input=pdf_bytes.getvalue(), height=750)
+    except ImportError:
+        st.info("💡 Install `streamlit-pdf-viewer` (`pip install streamlit-pdf-viewer`) for seamless native previews.")
+        # Fallback to download button if package isn't installed yet
