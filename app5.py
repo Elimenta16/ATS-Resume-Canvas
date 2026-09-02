@@ -660,6 +660,7 @@ with col_preview:
         file_name=f"Resume_{full_name.replace(' ', '_')}.pdf",
         mime="application/pdf",
         type="primary",
+        key="btn_download_pdf_preview",
     )
 
     json_str = json.dumps(cv_full_data, indent=2, ensure_ascii=False)
@@ -668,34 +669,7 @@ with col_preview:
         data=json_str,
         file_name=f"Resume_{full_name.replace(' ', '_')}.json",
         mime="application/json",
-    )
-
-    st.markdown("---")
-    st.markdown("### Document Live Preview")
-
-    # Convert PDF bytes to Base64
-    base64_pdf = base64.b64encode(pdf_bytes.getvalue()).decode("utf-8")
-
-with col_preview:
-    st.subheader("👁️ Preview & Export")
-
-    # Generate PDF
-    pdf_bytes = generate_ats_pdf(cv_full_data, pdf_config, t)
-
-    st.download_button(
-        label=t["btn_dl_pdf"],
-        data=pdf_bytes,
-        file_name=f"Resume_{full_name.replace(' ', '_')}.pdf",
-        mime="application/pdf",
-        type="primary",
-    )
-
-    json_str = json.dumps(cv_full_data, indent=2, ensure_ascii=False)
-    st.download_button(
-        label=t["btn_dl_json"],
-        data=json_str,
-        file_name=f"Resume_{full_name.replace(' ', '_')}.json",
-        mime="application/json",
+        key="btn_download_json_preview",
     )
 
     st.markdown("---")
